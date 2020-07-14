@@ -34,7 +34,7 @@ colors.forEach((color, index) => {
   div
     .append('div')
     .attr('class', 'count')
-    .text('less than ' + (index + 1) * DELTA);
+    .text('less than ' + format((index + 1) * DELTA));
 });
 
 const tooltip = d3.select('.tooltip');
