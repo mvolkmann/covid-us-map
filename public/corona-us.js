@@ -1,11 +1,14 @@
 /* global topojson: false */
 import {panZoomSetup} from './pan-zoom.js';
 
+const DELTA = 100000;
 const SVG_HEIGHT = 610;
 const SVG_WIDTH = 975;
 
 // Create a function to format numbers with commas.
 const format = d3.format(',');
+
+const colors = ['green', 'yellow', 'orange', 'red', 'purple'];
 
 const svg = d3
   .select('svg')
@@ -20,7 +23,9 @@ svg.call(
   })
 );
 */
-panZoomSetup('map', SVG_WIDTH, SVG_HEIGHT);
+
+// Disabled pan and zoom for now.
+//panZoomSetup('map', SVG_WIDTH, SVG_HEIGHT);
 
 const tooltip = d3.select('.tooltip');
 const tooltipHospitalized = tooltip.select('.hospitalized');
@@ -36,15 +41,14 @@ const idToNameMap = {};
 function getColor(stateId) {
   const stateName = idToNameMap[stateId];
   const count = covidMap[stateName].positive;
-  return count > 40000
-    ? 'purple'
-    : count > 30000
-    ? 'red'
-    : count > 20000
-    ? 'orange'
-    : count > 10000
-    ? 'yellow'
-    : 'green';
+  const colorIndex = Math.floor(count / DELTA);
+  if (colorIndex === 0) {
+    const opacity = Math.floor((256 * count) / DELTA);
+    const opacityHex = opacity.toString(16);
+    // Return green with some opacity.
+    return '#00ff00' + opacityHex;
+  }
+  return colors[colorIndex];
 }
 
 function hideTooltip() {
@@ -66,7 +70,7 @@ function pathMoved(d) {
   const stateName = d.properties.name;
   tooltipState.text(stateName);
   const covidData = covidMap[stateName];
-  console.log('corona-us.js pathMoved: covidData =', covidData);
+  //console.log('corona-us.js pathMoved: covidData =', covidData);
   const positive = covidData ? covidData.positive : 'unknown';
   tooltipPositive.text(format(positive));
   tooltipHospitalized.text(covidData.hospitalizedCurrently);
@@ -89,7 +93,7 @@ export async function createMap() {
   const covidData = await d3.json(
     'https://covidtracking.com/api/v1/states/current.json'
   );
-  console.log('corona-us.js x: covidData =', covidData);
+  //console.log('corona-us.js x: covidData =', covidData);
 
   // Populate map from state names to state-specific Covid data.
   let max = 0;
