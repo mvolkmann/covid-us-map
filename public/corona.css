@@ -1,0 +1,35 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+}
+
+.country,
+.state {
+  fill: lightgreen;
+  stroke: black;
+  stroke-width: 1;
+}
+
+.country:hover {
+  fill: red;
+}
+
+.sphere {
+  fill: cornflowerblue;
+}
+
+.tooltip {
+  position: absolute;
+  background: black;
+  border-radius: 5px;
+  color: white;
+  opacity: 0; /* initially hidden */
+  padding: 0.5rem;
+  pointer-events: none;
+}
+
+.tooltip label,
+.tooltip span {
+  color: white;
+  font-size: 1.2rem;
+}
