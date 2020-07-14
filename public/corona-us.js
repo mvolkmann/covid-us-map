@@ -46,7 +46,7 @@ function getColor(stateId) {
     const opacity = Math.floor((256 * count) / DELTA);
     const opacityHex = opacity.toString(16);
     // Return green with some opacity.
-    return '#00ff00' + opacityHex;
+    return '#008000' + opacityHex;
   }
   return colors[colorIndex];
 }
