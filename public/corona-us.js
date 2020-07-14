@@ -27,11 +27,21 @@ svg.call(
 // Disabled pan and zoom for now.
 //panZoomSetup('map', SVG_WIDTH, SVG_HEIGHT);
 
+const legend = d3.select('#legend');
+colors.forEach((color, index) => {
+  const div = legend.append('div').attr('class', 'row');
+  div.append('div').attr('class', 'swatch').style('background-color', color);
+  div
+    .append('div')
+    .attr('class', 'count')
+    .text('less than ' + (index + 1) * DELTA);
+});
+
 const tooltip = d3.select('.tooltip');
 const tooltipHospitalized = tooltip.select('.hospitalized');
+const tooltipIncrease = tooltip.select('.increase');
 const tooltipState = tooltip.select('.state');
 const tooltipPositive = tooltip.select('.positive');
-const tooltipVentilator = tooltip.select('.ventilator');
 
 const pathGenerator = d3.geoPath();
 
@@ -73,8 +83,8 @@ function pathMoved(d) {
   //console.log('corona-us.js pathMoved: covidData =', covidData);
   const positive = covidData ? covidData.positive : 'unknown';
   tooltipPositive.text(format(positive));
-  tooltipHospitalized.text(covidData.hospitalizedCurrently);
-  tooltipVentilator.text(covidData.onVentilatorCurrently || '0');
+  tooltipHospitalized.text(format(covidData.hospitalizedCurrently));
+  tooltipIncrease.text(format(covidData.positiveIncrease));
 
   // Position the tooltip.
   tooltip
@@ -89,13 +99,13 @@ export async function createMap() {
   // Load map from state abbreviations to state names.
   const stateIdMap = await d3.json('./us-states.json');
 
-  // Load current Covid data for each U.S. state.
+  // Load current COVID data for each U.S. state.
   const covidData = await d3.json(
     'https://covidtracking.com/api/v1/states/current.json'
   );
   //console.log('corona-us.js x: covidData =', covidData);
 
-  // Populate map from state names to state-specific Covid data.
+  // Populate map from state names to state-specific COVID data.
   let max = 0;
   for (const stateData of covidData) {
     const stateAbbreviation = stateData.state;
@@ -103,10 +113,10 @@ export async function createMap() {
     covidMap[stateName] = stateData;
     if (stateData.positive > max) max = stateData.positive;
   }
-  console.log('corona-us.js load: max positives =', max);
+  //console.log('corona-us.js load: max positives =', max);
 
   // Load the TopoJSON data for U.S. states.
-  const statesTopo = await d3.json('./states-albers-10m.json');
+  const statesTopo = await d3.json('./topojson/states-albers-10m.json');
 
   // Convert TopoJSON data to GeoJSON data.
   const us = topojson.feature(statesTopo, statesTopo.objects.states);

@@ -17,8 +17,17 @@
     </script>
   </head>
   <body>
+    <h1>COVID-19 in the United States as of yesterday</h1>
+    <p>
+      Data is obtained from
+      <a href="https://covidtracking.com/" target="_blank"
+        >https://covidtracking.com/</a
+      >. Hover over a state to see details.
+    </p>
     <svg id="map"></svg>
-    <div class="legend"></div>
+    <div id="legend">
+      <h3>Positive COVID-19 Cases</h3>
+    </div>
     <div class="tooltip">
       <div>
         <label>State:</label>
@@ -29,12 +38,12 @@
         <span class="positive"></span>
       </div>
       <div>
-        <label>Hospitalized:</label>
-        <span class="hospitalized"></span>
+        <label>One Day Increase:</label>
+        <span class="increase"></span>
       </div>
       <div>
-        <label>On Ventilator:</label>
-        <span class="ventilator"></span>
+        <label>Hospitalized:</label>
+        <span class="hospitalized"></span>
       </div>
     </div>
   </body>
