@@ -48,6 +48,8 @@ const pathGenerator = d3.geoPath();
 const covidMap = {};
 const idToNameMap = {};
 
+let currentStateName;
+
 function getColor(stateId) {
   const stateName = idToNameMap[stateId];
   const count = covidMap[stateName].positive;
@@ -78,13 +80,15 @@ function pathEntered() {
 function pathMoved(d) {
   // Populate the tooltip.
   const stateName = d.properties.name;
-  tooltipState.text(stateName);
-  const covidData = covidMap[stateName];
-  //console.log('corona-us.js pathMoved: covidData =', covidData);
-  const positive = covidData ? covidData.positive : 'unknown';
-  tooltipPositive.text(format(positive));
-  tooltipHospitalized.text(format(covidData.hospitalizedCurrently));
-  tooltipIncrease.text(format(covidData.positiveIncrease));
+  if (stateName !== currentStateName) {
+    tooltipState.text(stateName);
+    const covidData = covidMap[stateName];
+    const positive = covidData ? covidData.positive : 'unknown';
+    tooltipPositive.text(format(positive));
+    tooltipHospitalized.text(format(covidData.hospitalizedCurrently));
+    tooltipIncrease.text(format(covidData.positiveIncrease));
+    currentStateName = stateName;
+  }
 
   // Position the tooltip.
   tooltip
