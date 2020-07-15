@@ -1,8 +1,7 @@
 {
   "name": "corona-map",
   "version": "1.0.0",
-  "description": "",
-  "main": "corona-map.js",
+  "description": "U.S. map of COVID-19",
   "scripts": {
     "start": "node server.js"
   },
@@ -11,8 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "topojson": "^3.0.2",
-    "us-atlas": "^3.0.0",
-    "world-atlas": "^2.0.2"
+    "us-atlas": "^3.0.0"
   },
   "devDependencies": {
     "express": "^4.17.1"
