@@ -58,28 +58,24 @@ function getParentSelection(selection) {
 function panDown(svg) {
   const [x, y, width, height] = svg.attr('viewBox').split(' ');
   const dy = Number(height) * PAN_PERCENT;
-  console.log('pan-zoom.js panDown: dy =', dy);
   svg.transition().attr('viewBox', `${x} ${Number(y) + dy} ${width} ${height}`);
 }
 
 function panLeft(svg) {
   const [x, y, width, height] = svg.attr('viewBox').split(' ');
   const dx = Number(width) * PAN_PERCENT;
-  console.log('pan-zoom.js panLeft: dx =', dx);
   svg.transition().attr('viewBox', `${Number(x) - dx} ${y} ${width} ${height}`);
 }
 
 function panRight(svg) {
   const [x, y, width, height] = svg.attr('viewBox').split(' ');
   const dx = Number(width) * PAN_PERCENT;
-  console.log('pan-zoom.js panRight: dx =', dx);
   svg.transition().attr('viewBox', `${Number(x) + dx} ${y} ${width} ${height}`);
 }
 
 function panUp(svg) {
   const [x, y, width, height] = svg.attr('viewBox').split(' ');
   const dy = Number(height) * PAN_PERCENT;
-  console.log('pan-zoom.js panUp: dy =', dy);
   svg.transition().attr('viewBox', `${x} ${Number(y) - dy} ${width} ${height}`);
 }
 
@@ -124,27 +120,21 @@ export function panZoomSetup(svgId, svgWidth, svgHeight) {
 
     const {transform} = d3.event;
     const {k} = transform;
-    console.log('pan-zoom.js zooming: k =', k);
 
     let newX, newY, newWidth, newHeight;
     if (k === lastK) {
       //TODO: This doesn't pan correctly after double-clicking at maxK has been reached.
       //TODO: The values of transform.x and transform.y seem wrong then.
-      console.log('pan-zoom.js panZoomSetup: panning');
-      console.log('pan-zoom.js:', {x, y});
-      console.log('pan-zoom.js panZoomSetup: transform =', transform);
       // not scaling
       newX = Number(x) - transform.x;
       newY = Number(y) - transform.y;
       svg.attr('viewBox', `${newX} ${newY} ${width} ${height}`);
     } else {
       const scale = 1 + (k - 1) / 10;
-      console.log('pan-zoom.js zooming: scale =', scale);
       const newWidth = svgWidth / scale;
       const newHeight = svgHeight / scale;
       const newX = x - (newWidth - width) / 2;
       const newY = y - (newHeight - height) / 2;
-      console.log('pan-zoom.js:', {newX, newY});
       svg.attr('viewBox', `${newX} ${newY} ${newWidth} ${newHeight}`);
 
       lastK = k;

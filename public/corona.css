@@ -4,15 +4,10 @@ body {
   padding: 1rem;
 }
 
-.country,
 .state {
   fill: white;
   stroke: black;
   stroke-width: 1;
-}
-
-.country:hover {
-  fill: red;
 }
 
 #legend {
@@ -42,10 +37,6 @@ body {
   height: 20px;
   margin-right: 0.5rem;
   width: 20px;
-}
-
-.sphere {
-  fill: cornflowerblue;
 }
 
 .tooltip {
